@@ -55,15 +55,15 @@ public class ReadFile {
 			
 			// newline
 			if(r==13) {
-				// es gibt weniger Spalten als benötigt!
-				if(j<21) {
-					System.out.println("Es gibt nur "+ j +" Spalten in Zeile "+ (i+1) +", es müssen aber 21 sein.");
+				// there are less columns than allowed
+				if(j < this.gameField.length) {
+					System.out.println("There are only "+ j +" columns in row "+ (i+1) +" but it need to be "+ this.gameField.length);
 					System.exit(0);
 				}
 				
-				// es gibt mehr Zeilen als erlaubt!
-				if(i+1>14) {
-					System.out.println("Es gibt mehr Zeilen als erlaubt.");
+				// there are more rows than allowed
+				if(i+1 > this.gameField[0].length) {
+					System.out.println("There are more rows than allowed!");
 					System.exit(0);
 				}
 				
@@ -75,18 +75,19 @@ public class ReadFile {
 				continue;
 			}
 			
-			// es gibt mehr Spalten als benötigt!
+			// there are more columns than allowed
 			if(j>20) {
-				System.out.println("Es gibt mehr als 21 Spalten in Zeile "+ (i+1) +".");
+				System.out.println("There are more than "+ this.gameField.length +" columns in row "+ (i+1) +".");
 				System.exit(0);
 			}
 			
-			// ist das Zeichen erlaubt?
-			if( ch != 'X' && ch != 'P' && ch != 'O' && ch != 'L' && ch != 'T' && ch != 'Z' ) {
-				System.out.println("Das Zeichen "+ ch +" in Spalte "+ (j+1) +" und Zeile "+ (i+1) +" ist verboten.");
+			// are we reading a valid char?
+			if( ch != 'X' && ch != ' ' ) {
+				System.out.println("The character "+ ch +" in column "+ (j+1) +" and row "+ (i+1) +" is not allowed!");
 				System.exit(0);
 			}
 			
+			// everything is good
 			gameField[j][i] = ch;
 			j++;
 		}
