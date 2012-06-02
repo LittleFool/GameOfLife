@@ -13,7 +13,7 @@ public class ReadFile {
 	private InputStream in;
 	private Reader reader;
 	private File file;
-	private char gameField[][] = new char[50][50];
+	private String[][] gameField = new String[50][50];
 
 	/**
 	 * Constructor
@@ -46,7 +46,7 @@ public class ReadFile {
 	 * @return char[][]
 	 * @throws IOException
 	 */
-	public char[][] read() throws IOException {
+	public String[][] read() throws IOException {
 		int r, i=0, j=0;
 		char ch;
 		
@@ -54,7 +54,7 @@ public class ReadFile {
 			ch = (char)r;
 			
 			// newline
-			if(r==13) {
+			if(r == 13) {
 				// there are less columns than allowed
 				if(j < this.gameField.length) {
 					System.out.println("There are only "+ j +" columns in row "+ (i+1) +" but it need to be "+ this.gameField.length);
@@ -76,19 +76,19 @@ public class ReadFile {
 			}
 			
 			// there are more columns than allowed
-			if(j>20) {
+			if(j > gameField.length) {
 				System.out.println("There are more than "+ this.gameField.length +" columns in row "+ (i+1) +".");
 				System.exit(0);
 			}
 			
 			// are we reading a valid char?
-			if( ch != 'X' && ch != ' ' ) {
+			if( ch != 'x' && ch != ' ' ) {
 				System.out.println("The character "+ ch +" in column "+ (j+1) +" and row "+ (i+1) +" is not allowed!");
 				System.exit(0);
 			}
 			
 			// everything is good
-			gameField[j][i] = ch;
+			gameField[i][j] = ""+ch;
 			j++;
 		}
 		
