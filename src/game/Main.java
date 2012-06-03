@@ -13,7 +13,7 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String[][] gameField = new String[50][50];
+		char[][] gameField = new char[50][50];
 		ReadFile rf = new ReadFile("src/playingField/gleiter.txt");
 		try {
 			gameField = rf.read();
@@ -21,28 +21,13 @@ public class Main {
 			System.out.println(e.getMessage());
 		}
 		
-		NextStep next = new NextStep(gameField);
-		ExecutorService executor = Executors.newCachedThreadPool();
-		Future<String[][]> result = executor.submit(next);
-		
-		for(String[] str1 : gameField) {
-			for(String str2: str1) {
-				System.out.print(str2);
-			}
-			System.out.println();
-		}
-		
+		NextStep n = new NextStep(gameField);
 		try {
-			gameField = result.get();
-		} catch (InterruptedException | ExecutionException e) {
+			gameField = n.call();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		for(String[] str1 : gameField) {
-			for(String str2: str1) {
-				System.out.print(str2);
-			}
-			System.out.println();
-		}
+		Helper.output(gameField);
 	}
 }

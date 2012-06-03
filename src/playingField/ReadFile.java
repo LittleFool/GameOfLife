@@ -13,7 +13,7 @@ public class ReadFile {
 	private InputStream in;
 	private Reader reader;
 	private File file;
-	private String[][] gameField = new String[50][50];
+	private char[][] gameField = new char[50][50];
 
 	/**
 	 * Constructor
@@ -46,7 +46,7 @@ public class ReadFile {
 	 * @return char[][]
 	 * @throws IOException
 	 */
-	public String[][] read() throws IOException {
+	public char[][] read() throws IOException {
 		int r, i=0, j=0;
 		char ch;
 		
@@ -88,7 +88,7 @@ public class ReadFile {
 			}
 			
 			// everything is good
-			gameField[i][j] = ""+ch;
+			gameField[i][j] = ch;
 			j++;
 		}
 		
