@@ -1,35 +1,45 @@
 package game;
 
+import java.util.Arrays;
 import java.util.concurrent.Callable;
 
 public class NextStep implements Callable<char[][]> {
 	private char[][] gameField;
+	private char[][] newField;
 
 	public NextStep(char[][] gameField) {
+		this.gameField = gameField;
+		this.newField = new char[gameField.length][gameField[0].length];
+		for (char[] row : newField)
+	        Arrays.fill(row, ' ');
+	}
+
+	public void setGameField(char[][] gameField) {
 		this.gameField = gameField;
 	}
 
 	private int countNeighbors(int row, int column) {
-	    int neighbours = 0;
-
-	    for (int i = row - 1; i <= row + 1; i++) {
-	        for (int j = column - 1; j <= column + 1; j++) {
-	            // wir dürfen uns selbst nicht mitzählen!
-	            if (i == row && j == column)
-	                continue;
-
-	            if(i == -1 || j == -1) {
-	            	continue;
-	            }
-	            
-	            // ein lebender Nachbar
-	            if (gameField[i][j] == 'x') {
-	                neighbours++;
-	            }
-	        }
+	    int neighbors = 0;
+	    
+	    for(int i=row-1; i <= row+1; i++) {
+	    	for(int j=column-1; j <= column+1; j++) {
+	    		if(i == -1 || j == -1) {
+	    			continue;
+	    		}
+	    		
+	    		if(i == row && j == row) {
+	    			continue;
+	    		}
+	    		
+	    		if(gameField[i][j] == 'x') {
+	    			neighbors++;
+	    		}
+	    	}
 	    }
-
-	    return neighbours;
+	    
+	    System.out.println("count["+row+"]["+column+"] = "+neighbors);
+	    
+	    return neighbors;
 	}
 	
 	@Override
@@ -42,20 +52,26 @@ public class NextStep implements Callable<char[][]> {
 
 				// More than 3 neighbors and the cell dies
 				if(count > 3) {
-					gameField[i][j] = ' ';
+					newField[i][j] = ' ';
 				}
 				
 				// Exactly 3 neighbors and the cell lives
 				if(count == 3) {
-					gameField[i][j] = 'x';
+					newField[i][j] = 'x';
 				}
 				
+				// A living cell with 2 neighbors lives
+				if(count == 2 && gameField[i][j] == 'x') {
+					newField[i][j] = 'x';
+				}
+				
+				// Less than 2 neighbors and the cell dies
 				if(count < 2) {
-					gameField[i][j] = ' ';
+					newField[i][j] = ' ';
 				}
 			}
 		}
-		return gameField;
+		return newField;
 	}
 
 }

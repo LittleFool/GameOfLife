@@ -14,7 +14,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		char[][] gameField = new char[50][50];
-		ReadFile rf = new ReadFile("src/playingField/gleiter.txt");
+		ReadFile rf = new ReadFile("src/playingField/beacon");
 		try {
 			gameField = rf.read();
 		} catch (IOException e) {
@@ -22,12 +22,17 @@ public class Main {
 		}
 		
 		NextStep n = new NextStep(gameField);
+		ExecutorService executor = Executors.newCachedThreadPool();
+		
 		try {
 			gameField = n.call();
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+//		Helper.output(gameField);
 		
-		Helper.output(gameField);
+		executor.shutdown();
 	}
 }
