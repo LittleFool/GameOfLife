@@ -11,8 +11,13 @@ public class NextStep implements Callable<char[][]> {
 		this.newField = new char[gameField.length][gameField[0].length];
 	}
 
-	public void setGameField(char[][] gameField) {
-		this.gameField = gameField;
+	public void reset() {
+		for (int i = 0; i < this.gameField.length - 1; i++) {
+			for (int j = 0; j < this.gameField[0].length - 1; j++) {
+				gameField[i][j] = newField[i][j];
+				newField[i][j] = ' ';
+			}
+		}
 	}
 
 	private int countNeighbors(int row, int column) {
@@ -68,7 +73,8 @@ public class NextStep implements Callable<char[][]> {
 				}
 			}
 		}
-		return newField;
+		
+		return this.gameField;
 	}
 
 }
