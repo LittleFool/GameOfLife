@@ -1,6 +1,5 @@
 package game;
 
-import java.util.Arrays;
 import java.util.concurrent.Callable;
 
 public class NextStep implements Callable<char[][]> {
@@ -10,8 +9,6 @@ public class NextStep implements Callable<char[][]> {
 	public NextStep(char[][] gameField) {
 		this.gameField = gameField;
 		this.newField = new char[gameField.length][gameField[0].length];
-		for (char[] row : newField)
-	        Arrays.fill(row, ' ');
 	}
 
 	public void setGameField(char[][] gameField) {
@@ -22,12 +19,12 @@ public class NextStep implements Callable<char[][]> {
 	    int neighbors = 0;
 	    
 	    for(int i=row-1; i <= row+1; i++) {
-	    	for(int j=column-1; j <= column+1; j++) {
+	    	for(int j=column-1; j <= column+1; j++) {	    		
 	    		if(i == -1 || j == -1) {
 	    			continue;
 	    		}
 	    		
-	    		if(i == row && j == row) {
+	    		if(i == row && j == column) {
 	    			continue;
 	    		}
 	    		
@@ -37,7 +34,7 @@ public class NextStep implements Callable<char[][]> {
 	    	}
 	    }
 	    
-	    System.out.println("count["+row+"]["+column+"] = "+neighbors);
+//	    System.out.println("count["+row+"]["+column+"] = "+neighbors);
 	    
 	    return neighbors;
 	}
